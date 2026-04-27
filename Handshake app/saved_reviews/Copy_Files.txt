@@ -1,0 +1,51 @@
+File sender code...
+
+CMD
+javac FileSender.java
+Run  java FileSender "C:/Users/Name/Desktop/data.zip"
+Linux
+java FileSender "/home/user/documents/data.zip"
+
+******************************************
+import java.io.*;
+import java.net.*;
+
+public class FileSender {
+    public static void main(String[] args) {
+        // Check if a file path was provided via command line
+        if (args.length < 1) {
+            System.out.println("Usage: java FileSender <file_path>");
+            return;
+        }
+
+        String filePath = args[0]; 
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            System.err.println("Error: File not found at " + filePath);
+            return;
+        }
+
+        try (Socket socket = new Socket("localhost", 5000);
+             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+             FileInputStream fis = new FileInputStream(file)) {
+
+            System.out.println("Sending: " + file.getName() + " (" + file.length() + " bytes)");
+
+            dos.writeUTF(file.getName()); // Send name
+            dos.writeLong(file.length()); // Send size
+
+            byte[] buffer = new byte[4096];
+            int read;
+            while ((read = fis.read(buffer)) > 0) {
+                dos.write(buffer, 0, read);
+            }
+            
+            dos.flush();
+            System.out.println("File sent successfully!");
+            
+        } catch (IOException e) { 
+            System.err.println("Connection Error: " + e.getMessage());
+        }
+    }
+}

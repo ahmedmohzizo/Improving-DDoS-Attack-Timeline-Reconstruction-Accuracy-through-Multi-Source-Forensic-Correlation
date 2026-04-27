@@ -1,0 +1,53 @@
+Receiver code...
+CMD  
+Save the file as ScreenSender.java
+javac ScreenSender.java
+Run java ScreenSender
+LINUX
+Save the file as ScreenSender.java
+javac ScreenSender.java
+Run java ScreenSender
+*****************************************
+ip a
+javac FileReceiver.java
+javac FileSender.java
+java FileReceiver
+see Waiting for connection...
+java FileReceiver 5001
+****************************************************
+import java.io.*;
+import java.net.*;
+
+public class FileReceiver {
+    public static void main(String[] args) {
+        int port = 5001;
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("Waiting for connection...");
+
+            Socket socket = serverSocket.accept();
+            System.out.println("Connected!");
+
+            DataInputStream dis = new DataInputStream(socket.getInputStream());
+
+            String fileName = dis.readUTF();
+            FileOutputStream fos = new FileOutputStream("received_" + fileName);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = dis.read(buffer)) > 0) {
+                fos.write(buffer, 0, bytesRead);
+            }
+
+            fos.close();
+            dis.close();
+            socket.close();
+
+            System.out.println("File received successfully!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

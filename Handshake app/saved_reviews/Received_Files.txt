@@ -1,0 +1,66 @@
+File receiver code...
+
+CMD and Lunix
+javac FileReceiver.java
+Run   java FileReceiver
+*****************************************************
+Note: If you are running the Sender and Receiver
+ on two different computers, 
+remember to change "localhost" in your Sender 
+code to the IP Address of the Receiver machine.
+
+**************************************
+import java.io.*;
+import java.net.*;
+
+public class FileReceiver {
+    public static void main(String[] args) {
+        int port = 5000;
+        
+        // Use a relative path so it works on both Windows and Linux
+        String savePath = "ReceivedFiles" + File.separator; 
+
+        // Create the folder in the current directory if it doesn't exist
+        File directory = new File(savePath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("Server started on port " + port);
+            System.out.println("Waiting for files... (Saving to: " + directory.getAbsolutePath() + ")");
+
+            while (true) {
+                // Wait for a connection
+                try (Socket socket = serverSocket.accept();
+                     DataInputStream dis = new DataInputStream(socket.getInputStream())) {
+                    
+                    String fileName = dis.readUTF();
+                    long fileSize = dis.readLong();
+                    
+                    // Create file object inside our save directory
+                    File file = new File(directory, fileName);
+
+                    System.out.println("Receiving: " + fileName + " (" + fileSize + " bytes)");
+
+                    try (FileOutputStream fos = new FileOutputStream(file)) {
+                        byte[] buffer = new byte[4096];
+                        int read;
+                        long remaining = fileSize;
+                        
+                        while (remaining > 0 && (read = dis.read(buffer, 0, (int)Math.min(buffer.length, remaining))) > 0) {
+                            fos.write(buffer, 0, read);
+                            remaining -= read;
+                        }
+                    }
+                    System.out.println("Successfully saved to: " + file.getAbsolutePath());
+                    System.out.println("-----------------------------------------");
+                } catch (IOException e) {
+                    System.err.println("Error handling connection: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) { 
+            System.err.println("Server Error: " + e.getMessage());
+        }
+    }
+}
