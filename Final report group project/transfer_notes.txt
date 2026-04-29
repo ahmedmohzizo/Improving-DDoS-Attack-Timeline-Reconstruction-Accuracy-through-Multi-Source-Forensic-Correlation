@@ -1,0 +1,31 @@
+File Transfer Test Between Server and Client
+
+Sender Command:
+java FileSender 192.168.17.134 5001 important.docx 112.jar
+
+Receiver Command:
+python3 receiver.py
+
+Transfer Verification Methods:
+
+Wireshark packet capture analysis
+Zeek conn.log records
+Zeek weird.log forensic evidence
+Grafana dashboard monitoring
+Loki log analysis
+
+IP Addresses Involved:
+192.168.17.134 (Sender / Server)
+192.168.17.137 (Receiver / Client)
+
+Important Forensic Evidence:
+
+TCP handshake validation
+SYN / ACK packet confirmation
+Port 5001 transfer activity
+connection_originator_SYN_ack
+active_connection_reuse
+inappropriate_FIN
+
+Conclusion:
+The file transfer between server and client was successfully verified using multi-source forensic correlation. Wireshark confirmed packet-level communication, Zeek logs validated connection details, and Grafana with Loki provided dashboard-based forensic analysis of the transfer activity.
