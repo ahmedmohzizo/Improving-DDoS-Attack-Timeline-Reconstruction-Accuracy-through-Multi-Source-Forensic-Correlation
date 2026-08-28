@@ -1,79 +1,58 @@
-# Improving DDoS Attack Timeline Reconstruction Accuracy through Multi Source Forensic Correlation
-Compare single-source and multi-source forensic  analysis to improve DDoS timeline reconstruction accuracy
+# DDoS Attack Timeline Reconstruction Through Multi-Source Forensic Correlation
 
-We have three Linux computers:
+## Overview
 
+This project evaluates whether combining multiple forensic data sources improves the accuracy and confidence of Distributed Denial of Service (DDoS) attack timeline reconstruction.
 
-A    is target it is secure computer control data base of company it need permission to add or remove application and not accept USB except adman user.
+Single-source investigations can provide incomplete visibility and inconsistent timestamps. This lab correlates packet captures, network-security logs, monitoring metrics, dashboards, and written evidence to identify attack phases and validate start and end times.
 
+## Lab Environment
 
-B is computer in same network company but less secure than computer A can accept USB and user login in .
+The controlled lab uses three Linux systems:
 
+- **System A - Protected target:** Simulates a secured company database host with restricted administrative access.
+- **System B - Test workstation:** Represents a less-restricted host on the same network.
+- **System C - Monitoring workstation:** Captures and correlates network and system telemetry.
 
-C  is monitoring computer watch and track system and network in company.
+## Tools
 
+- Wireshark for packet capture and protocol analysis
+- Zeek for structured network-security logs
+- Grafana Loki for centralized log aggregation and querying
+- Prometheus for metrics collection
+- Grafana for dashboards and visualization
+- Ubuntu and Kali Linux virtual machines
+- Python for analysis and supporting workflows
 
-Start with Final report project.docx
+## Investigation Workflow
 
-Project Overview
-This project focuses on improving the accuracy of Distributed Denial of Service (DDoS) attack timeline reconstruction using multi source forensic correlation.
+1. Establish a controlled baseline for network and host activity.
+2. Generate authorized DDoS test traffic in the isolated lab.
+3. Collect packet captures, Zeek logs, Loki events, and Prometheus metrics.
+4. Normalize timestamps and correlate evidence across sources.
+5. Compare the reconstructed timeline with known test timestamps.
+6. Document attack phases, supporting evidence, and investigation limitations.
 
-Traditional single source forensic analysis often creates limited visibility, timestamp inconsistencies, and reduced confidence during cybersecurity investigations. This project solves that problem by combining multiple forensic sources including Wireshark packet capture, Zeek network logs, Loki log filtering, Prometheus monitoring, and Grafana dashboards.
+## Repository Contents
 
+- `Final report group project/` - final reporting materials
+- `Final work steps/` - implementation and investigation workflow
+- `Grafana/` - dashboard evidence
+- `LOKi/` - log-aggregation evidence
+- `Prometheus/` - monitoring evidence
+- `Wireshark/` - packet-capture evidence
+- `Zeek/` - structured network-log evidence
+- `Handshake app/` - supporting application materials
+- `Final report project.docx` - full written report
 
+## Key Findings
 
-The goal is to reconstruct attack phases more accurately, validate attack start and end times using ground truth timestamps, and improve forensic reliability for incident response and post attack investigation.
+- Multi-source correlation provides stronger evidence than relying on one telemetry source.
+- Cross-source timestamps improve attack-phase identification and validation.
+- Packet data, structured logs, and monitoring dashboards provide complementary investigative context.
+- Clear evidence organization improves repeatability and post-incident reporting.
 
+## Ethical Use
 
-Tools Used
-
-Wireshark
-
-Zeek
-
-Loki
-
-Prometheus
-
-Grafana
-
-Ubuntu Virtual Machines
-
-Kali Linux
-
-Python
-
-GitHub
-
-Project Structure
-
-
-Practical_Evidence → screenshots and forensic proof
-
-Attack_Results → attack timeline charts and analysis
-
-Appendix_Supporting_Evidence → additional validation material
-
-Handshake_App → supporting application project files
-
-Final Report PDF
-
-SRS Final Poster PDF
-
-Key Contributions
-
-Multi source forensic correlation for DDoS timeline reconstruction
-
-Reduced timestamp deviation compared to single source analysis
-
-Better attack phase identification and validation
-
-Improved forensic confidence and cybersecurity investigation accuracy
-
-Conclusion
-
-Multi source forensic monitoring significantly improves DDoS attack reconstruction accuracy and strengthens network resilience analysis.
-
-
-By combining packet captures, structured logs, monitoring dashboards, and forensic reporting, the project provides stronger evidence, better incident response capability, and improved post attack investigation reliability.
+All attack simulation and monitoring should be performed only in an isolated environment that you own or are explicitly authorized to test.
 
